@@ -1,5 +1,4 @@
 const request = require("request");
-
 /* 
   request({}, (error, response, body));
   takes 2 args,
@@ -13,5 +12,6 @@ request({
   json: true 
   // 👆 Tells request the data coming back is JSON and it will take the JSON string and convert it to an object.
 }, (error, response, body) => {
-  console.log(body);
+  console.log(JSON.stringify(body, undefined, 2));
+  // the 3rd argument here, is to specify how many spaces you wanna use per indentation.
 });
