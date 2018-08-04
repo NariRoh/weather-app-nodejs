@@ -8,30 +8,26 @@ const argv = yargs
       alias: 'address',
       describe: 'Address to fetch weather for',
       string: true
-      // tells yargs to always parse the a or address's argument as a string
     }
   })
   .help()
   .alias('help', 'h')
   .argv; 
-  // takes all of this configuration runs it through our arguments and stores the result in the argv variable
-
-  // console.log(argv);
   var encodedAddress = encodeURIComponent(argv.address);
-  /*
-    > encodeURIComponent('1301 lombard street philiadelphia')
-      '1301%20lombard%20street%20philiadelphia'
-    > decodeURIComponent('Andrew%20Mead')
-      'Andrew Mead'
-  */ 
 
 request({
   url: `http://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`,
   json: true 
 }, (error, response, body) => {
-  const { lat, lng } = body.results[0].geometry.location;
-
-  console.log(`Address: ${body.results[0].formatted_address}`);
-  console.log(`Latitude: ${lat}`);
-  console.log(`Longitude: ${lng}`);
+  if (error) {
+    console.log('Unable to connect to Google servers.');
+  } else if (body.status === "ZERO_RESULTS") {
+    console.log("Unable to find that address");
+  } else if (body.status === "OK") {
+    const { lat, lng } = body.results[0].geometry.location;
+  
+    console.log(`Address: ${body.results[0].formatted_address}`);
+    console.log(`Latitude: ${lat}`);
+    console.log(`Longitude: ${lng}`);
+  }
 });
