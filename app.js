@@ -18,13 +18,19 @@ const argv = yargs
 
   // console.log(argv);
   var encodedAddress = encodeURIComponent(argv.address);
+  /*
+    > encodeURIComponent('1301 lombard street philiadelphia')
+      '1301%20lombard%20street%20philiadelphia'
+    > decodeURIComponent('Andrew%20Mead')
+      'Andrew Mead'
+  */ 
 
 request({
   url: `http://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`,
   json: true 
 }, (error, response, body) => {
   const { lat, lng } = body.results[0].geometry.location;
-  
+
   console.log(`Address: ${body.results[0].formatted_address}`);
   console.log(`Latitude: ${lat}`);
   console.log(`Longitude: ${lng}`);
