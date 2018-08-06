@@ -21,4 +21,4 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
   } else {
     console.log(JSON.stringify(results, undefined, 2));
   }
-});
+}); 
